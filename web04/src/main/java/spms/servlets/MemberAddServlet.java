@@ -6,6 +6,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -41,10 +42,10 @@ public class MemberAddServlet extends HttpServlet {
 		Connection conn = null;
 		PreparedStatement stmt = null;
 		
-		String driver = "oracle.jdbc.driver.OracleDriver";
-		String url = "jdbc:oracle:thin:@localhost:1521/xepdb1";
-		String user = "NEWLEC";
-		String pwd = "1234";
+//		String driver = "oracle.jdbc.driver.OracleDriver";
+//		String url = "jdbc:oracle:thin:@localhost:1521/xepdb1";
+//		String user = "NEWLEC";
+//		String pwd = "1234";
 			
 		String sql = "INSERT INTO MEMBERS(EMAIL,PWD,MNAME,CRE_DATE,MOD_DATE)"
 				+ " VALUES (?, ?, ?, SYSDATE, SYSDATE)";
@@ -52,8 +53,12 @@ public class MemberAddServlet extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 
 		try {
-			Class.forName(driver);
-			conn = DriverManager.getConnection(url, user, pwd);
+			ServletContext sc = this.getServletContext();
+			Class.forName(sc.getInitParameter("driver"));
+			conn = DriverManager.getConnection(
+					sc.getInitParameter("url"),
+					sc.getInitParameter("username"),
+					sc.getInitParameter("password"));
 			stmt = conn.prepareStatement(sql);
 			
 			stmt.setString(1, request.getParameter("email"));

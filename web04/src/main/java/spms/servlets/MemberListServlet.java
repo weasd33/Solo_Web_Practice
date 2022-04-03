@@ -7,6 +7,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
@@ -17,24 +18,27 @@ import javax.servlet.http.HttpServlet;
 public class MemberListServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	@Override
-	public void service(ServletRequest request, ServletResponse response)
+	protected void doGet(ServletRequest request, ServletResponse response)
 			throws ServletException, IOException {
 		Connection conn = null;
 		Statement stmt = null;
 		ResultSet rs = null;
 		
-		String driver = "oracle.jdbc.driver.OracleDriver";
-		String url = "jdbc:oracle:thin:@localhost:1521/xepdb1";
-		String user = "NEWLEC";
-		String pwd = "1234";
+//		String driver = "oracle.jdbc.driver.OracleDriver";
+//		String url = "jdbc:oracle:thin:@localhost:1521/xepdb1";
+//		String user = "NEWLEC";
+//		String pwd = "1234";
 		
 		String sql = "SELECT MNO, MNAME, EMAIL, CRE_DATE FROM MEMBERS ORDER BY MNO";
 
 		try {
-			Class.forName(driver);
+			ServletContext sc = this.getServletContext();
+			Class.forName(sc.getInitParameter("driver"));
 			
-			conn = DriverManager.getConnection(url, user, pwd);
+			conn = DriverManager.getConnection(
+					sc.getInitParameter("url"),
+					sc.getInitParameter("username"),
+					sc.getInitParameter("password"));
 			
 			stmt = conn.createStatement();
 			rs = stmt.executeQuery(sql);
