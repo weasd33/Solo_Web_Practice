@@ -39,6 +39,10 @@ public class MemberAddServlet extends HttpServlet {
 	protected void doPost(
 			HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		/*
+		CharacterEncodingFilter에서 처리
+		request.setCharacterEncoding("UTF-8");
+		 */
 		Connection conn = null;
 		PreparedStatement stmt = null;
 		
@@ -50,8 +54,7 @@ public class MemberAddServlet extends HttpServlet {
 		String sql = "INSERT INTO MEMBERS(EMAIL,PWD,MNAME,CRE_DATE,MOD_DATE)"
 				+ " VALUES (?, ?, ?, SYSDATE, SYSDATE)";
 		
-		request.setCharacterEncoding("UTF-8");
-
+		
 		try {
 			ServletContext sc = this.getServletContext();
 			Class.forName(sc.getInitParameter("driver"));
