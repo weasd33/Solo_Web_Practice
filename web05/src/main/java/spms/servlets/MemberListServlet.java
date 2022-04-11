@@ -61,8 +61,7 @@ public class MemberListServlet extends HttpServlet {
 			request.setAttribute("members", members);
 			
 			// JSP로 출력을 위임한다.
-			RequestDispatcher rd = request.getRequestDispatcher(
-					"/member/MemberList.jsp");
+			RequestDispatcher rd = request.getRequestDispatcher("/member/MemberList.jsp");
 			rd.include(request, response);
 			
 		} catch (Exception e) {
