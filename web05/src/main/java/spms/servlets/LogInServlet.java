@@ -31,17 +31,15 @@ public class LogInServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		try {
-			ServletContext sc = this.getServletContext();
-			Connection conn = (Connection) sc.getAttribute("conn");
-
-			MemberDao memberDao = new MemberDao();
-			memberDao.setConnection(conn);
-
-			Member member = memberDao.exist(request.getParameter("email"), request.getParameter("password"));
-			if (member != null) {
-				HttpSession session = request.getSession();
-				session.setAttribute("member", member);
-				response.sendRedirect("../member/list");
+			 ServletContext sc = this.getServletContext();
+		      MemberDao memberDao = (MemberDao)sc.getAttribute("memberDao"); 
+		      Member member = memberDao.exist(
+		          request.getParameter("email"), 
+		          request.getParameter("password"));
+		      if (member != null) {
+		        HttpSession session = request.getSession();
+		        session.setAttribute("member", member);
+		        response.sendRedirect("../member/list");
 
 			} else {
 				RequestDispatcher rd = request.getRequestDispatcher("/auth/LogInFail.jsp");

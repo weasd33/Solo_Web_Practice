@@ -23,17 +23,16 @@ public class MemberUpdateServlet extends HttpServlet {
 			throws ServletException, IOException {
 		try {
 			ServletContext sc = this.getServletContext();
-			Connection conn = (Connection) sc.getAttribute("conn");
+		      MemberDao memberDao = (MemberDao)sc.getAttribute("memberDao");
 
-			MemberDao memberDao = new MemberDao();
-			memberDao.setConnection(conn);
+		      Member member = memberDao.selectOne(
+		          Integer.parseInt(request.getParameter("no")));
 
-			Member member = memberDao.selectOne(Integer.parseInt(request.getParameter("no")));
+		      request.setAttribute("member", member);
 
-			request.setAttribute("member", member);
-
-			RequestDispatcher rd = request.getRequestDispatcher("/member/MemberUpdateForm.jsp");
-			rd.forward(request, response);
+		      RequestDispatcher rd = request.getRequestDispatcher(
+		          "/member/MemberUpdateForm.jsp");
+		      rd.forward(request, response);
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -48,17 +47,14 @@ public class MemberUpdateServlet extends HttpServlet {
 			throws ServletException, IOException {
 		try {
 			ServletContext sc = this.getServletContext();
-			Connection conn = (Connection) sc.getAttribute("conn");
+		      MemberDao memberDao = (MemberDao) sc.getAttribute("memberDao");  
+		      
+		      memberDao.update(new Member()
+		      .setNo(Integer.parseInt(request.getParameter("no")))
+		      .setName(request.getParameter("name"))
+		      .setEmail(request.getParameter("email")));
 
-			MemberDao memberDao = new MemberDao();
-			memberDao.setConnection(conn);
-
-			memberDao.update(new Member()
-					.setNo(Integer.parseInt(request.getParameter("no")))
-					.setName(request.getParameter("name"))
-					.setEmail(request.getParameter("email")));
-
-			response.sendRedirect("list");
+		      response.sendRedirect("list");
 
 		} catch (Exception e) {
 			e.printStackTrace();

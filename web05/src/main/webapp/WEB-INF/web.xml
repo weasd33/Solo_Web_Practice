@@ -27,17 +27,6 @@
 
 	<!-- 필터 URL 매핑 -->
 
-	<!-- 서블릿 선언 -->
-	<servlet>	
-		<!-- AppInitServlet에 대해 URL을 지정하지 않는다. - <servlet-mapping> 태그가 없다는 의미 
-			이렇게 URL 매핑 정보가 없는 서블릿은 클라이언트에서 실행을 요청할 수 없다.
-			AppInitServlet 처럼 다른 서블릿을 위해 준비 작업을 수행하는 서블릿인 경우 URL을 지정하지 않는다.-->
-		<servlet-name>AppInitServlet</servlet-name>
-		<servlet-class>spms.servlets.AppInitServlet</servlet-class>
-		<!-- 클라이언트의 요청이 없어도 웹 애플리케이션이 시작될 때 자동으로 생성되게 함. -->
-		<load-on-startup>1</load-on-startup>	
-	</servlet>
-
 	<!-- 서블릿을 URL과 연결 -->
 
 	<welcome-file-list>
