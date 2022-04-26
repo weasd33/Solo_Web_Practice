@@ -26,4 +26,33 @@
     <!--
     <Manager pathname="" />
     -->
+    
+    <Resource
+    	name="jdbc/oracle"
+    	auth="Container"
+    	type="javax.sql.DataSource"
+    	maxActive="10"
+    	maxIdle="3"
+    	maxWait="10000"
+    	username="NEWLEC"
+    	password="1234"
+    	driverClassName="oracle.jdbc.driver.OracleDriver"
+    	url="jdbc:oracle:thin:@localhost:1521/xepdb1"
+    	closeMethod="close"
+    />
+    
 </Context>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
