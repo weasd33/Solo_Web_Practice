@@ -7,6 +7,12 @@ import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
 import javax.sql.DataSource;
 
+import spms.controls.LogInController;
+import spms.controls.LogOutController;
+import spms.controls.MemberAddController;
+import spms.controls.MemberDeleteController;
+import spms.controls.MemberListController;
+import spms.controls.MemberUpdateController;
 import spms.dao.MemberDao;
 
 @WebListener
@@ -17,18 +23,21 @@ public class ContextLoaderListener implements ServletContextListener {
 		// contextInitialized() - 어플리케이션이 실행될 때 호출
 		try {
 			ServletContext sc = event.getServletContext();
-		      
+
 			InitialContext initialContext = new InitialContext();
 			// lookup 메서드의 매개변수 값은 서버 자원의 JNDI 이름 앞에 "java:comp/env"를 붙임
 			// 반환형은 Object로 형변환을 해줌
-			DataSource ds = (DataSource)initialContext.lookup("java:comp/env/jdbc/oracle");
-	      
+			DataSource ds = (DataSource) initialContext.lookup("java:comp/env/jdbc/oracle");
+
 			MemberDao memberDao = new MemberDao();
 			memberDao.setDataSource(ds);
-	      
-			// DB 연동한 memberDAO를 다른 서블릿에서도 사용하기 위해 set
-			// 다른 서블릿에서는 memberDAO를 get해서 재사용해주면 됨
-			sc.setAttribute("memberDao", memberDao);
+
+			sc.setAttribute("/auth/login.do", new LogInController().setMemberDao(memberDao));
+			sc.setAttribute("/auth/logout.do", new LogOutController());
+			sc.setAttribute("/member/list.do", new MemberListController().setMemberDao(memberDao));
+			sc.setAttribute("/member/add.do", new MemberAddController().setMemberDao(memberDao));
+			sc.setAttribute("/member/update.do", new MemberUpdateController().setMemberDao(memberDao));
+			sc.setAttribute("/member/delete.do", new MemberDeleteController().setMemberDao(memberDao));
 
 		} catch (Throwable e) {
 			e.printStackTrace();
