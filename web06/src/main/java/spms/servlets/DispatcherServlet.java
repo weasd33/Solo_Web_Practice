@@ -21,9 +21,7 @@ import spms.listeners.ContextLoaderListener;
 @WebServlet("*.do")
 public class DispatcherServlet extends HttpServlet {
   @Override
-  protected void service(
-      HttpServletRequest request, HttpServletResponse response)
-      throws ServletException, IOException {
+  protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     response.setContentType("text/html; charset=UTF-8");
     String servletPath = request.getServletPath();
     try {
@@ -66,8 +64,7 @@ public class DispatcherServlet extends HttpServlet {
     }
   }
 
-  private void prepareRequestData(HttpServletRequest request,
-      HashMap<String, Object> model, DataBinding dataBinding)
+  private void prepareRequestData(HttpServletRequest request, HashMap<String, Object> model, DataBinding dataBinding)
       throws Exception {
     Object[] dataBinders = dataBinding.getDataBinders();
     String dataName = null;
